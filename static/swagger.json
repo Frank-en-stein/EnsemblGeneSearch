@@ -1,0 +1,84 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "description": "Gene autocomplete with name prefix and species from Emsembl public database",
+        "version": "1.0.0",
+        "title": "Gene-Autocomplete",
+        "contact": {
+            "name": "S. M. Faisal Rahman",
+            "email": "smfaisal1648@gmail.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "servers": [{
+        "url": "/"
+    }],
+    "tags": [{
+        "name": "Search Gene",
+        "description": "Only GET method is allowed"
+    }],
+    "paths": {
+        "/gene": {
+            "get": {
+                "tags": [
+                    "Search Gene"
+                ],
+                "summary": "Finds gene with name prefix and species if specified",
+                "parameters": [{
+                        "in": "query",
+                        "name": "name",
+                        "required": true,
+                        "description": "Gene name prefix",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "in": "query",
+                        "name": "species",
+                        "required": false,
+                        "description": "Gene belonging to species",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/components/schemas/geneAutoComplete"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "geneAutoComplete": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "format": "string"
+                    },
+                    "name": {
+                        "type": "string",
+                        "format": "string"
+                    },
+                    "species": {
+                        "type": "string",
+                        "format": "string"
+                    }
+                }
+            }
+        }
+    }
+}
