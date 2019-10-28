@@ -58,7 +58,7 @@ class test_searchGene(unittest.TestCase):
     ##
     def test_handleRequest_success(self):
         self.req.args = {"name": "gene", "species": "species"}
-        self.db.connection.cursor.return_value.fetchall.return_value = (('ENSZALG00000011220', 'TRPV4', 'zonotrichia_albicollis'), ('ENSZALG00000005621', 'TRPV6', 'zonotrichia_albicollis'))
+        self.db.cursor.return_value.fetchall.return_value = (('ENSZALG00000011220', 'TRPV4', 'zonotrichia_albicollis'), ('ENSZALG00000005621', 'TRPV6', 'zonotrichia_albicollis'))
 
         res = self.controller.handleRequest(self.req)
         exp = [{'id': 'ENSZALG00000011220', 'name': 'TRPV4', 'species': 'zonotrichia_albicollis'},

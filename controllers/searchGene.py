@@ -18,7 +18,8 @@ class SearchGeneController:  # TODO: consider parent class Controller
 
         query, args = self._constructQuery(geneName, geneSpecies)
 
-        cur = self.db.connection.cursor()
+        rows = ()
+        cur = self.db.cursor()
         cur.execute(query) if args == None else cur.execute(query, args)
         rows = cur.fetchall()
         

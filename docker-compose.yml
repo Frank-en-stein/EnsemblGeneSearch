@@ -1,0 +1,19 @@
+version: '3.5'
+services:
+  emsemble-gene-search-alpine:
+    container_name: emsemble-gene-search-alpine
+    image: emsemble-gene-search-alpine
+    build: .
+    ports:
+      - 5000:5000
+    restart: always
+    networks: 
+      - service_network
+
+networks:   
+  service_network:
+    driver: bridge
+    name: service_network
+
+volumes:
+  data_volume:
