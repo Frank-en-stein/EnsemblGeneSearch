@@ -20,7 +20,7 @@ def getGene():
     response = controller.handleRequest()
     return jsonify(response), 200
 
-# @API.route('/', defaults={'path': ''})
-# @API.route('/<path:path>')
-# def catch_all(path):
-#     abort(405)
+@API.route('/', defaults={'path': ''})
+@API.route('/<path:path>')
+def catch_all(path):
+    abort(405)

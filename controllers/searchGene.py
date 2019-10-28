@@ -13,11 +13,15 @@ class SearchGeneController:  # TODO: consider parent class Controller
         self.db = db
         self.cache = cache
 
-    def handleRequest(self, parequestrams=request):
-        geneName, geneSpecies = self._validateParams()
+    def handleRequest(self, request=request):
+        geneName, geneSpecies = self._validateParams(request)
 
-        query, args = self._contructQuery(geneName, geneSpecies)
-        rows = mysqlUtils.executeQuery(self.db, query, args)
+        query, args = self._constructQuery(geneName, geneSpecies)
+
+        cur = self.db.connection.cursor()
+        cur.execute(query) if args == None else cur.execute(query, args)
+        rows = cur.fetchall()
+        
         jsonDict = mysqlUtils.sqlRowToJsonDict(rows, rowHeaders=['id', 'name', 'species'])
         return jsonDict
 
@@ -25,7 +29,7 @@ class SearchGeneController:  # TODO: consider parent class Controller
         # TODO: Design sharded trie cache. Assuming the design would be a write through cache
         return None  
 
-    def _contructQuery(self, geneName, geneSpecies):
+    def _constructQuery(self, geneName, geneSpecies=None):
         query = "SELECT stable_id, display_label, species from gene_autocomplete WHERE display_label LIKE %s"
         args = [geneName + "%%"]
         if geneSpecies != None:
